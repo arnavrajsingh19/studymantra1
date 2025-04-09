@@ -128,7 +128,6 @@ function Navbar() {
             )}
           </div>
         )}
-
         <button
           className="mr-4 md:hidden"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
