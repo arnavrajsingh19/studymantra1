@@ -33,7 +33,7 @@ function Navbar() {
   // For debugging purposes
   const authState = useSelector((state) => state.auth);
   const profileState = useSelector((state) => state.profile);
-  
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   console.log("Redux Auth State:", authState);
   console.log("Redux Profile State:", profileState);
   
@@ -112,9 +112,30 @@ function Navbar() {
             isValidUser && <ProfileDropdown />
           )}
         </div>
-        <button className="mr-4 md:hidden">
+        {isMobileMenuOpen && (
+          <div className="md:hidden absolute top-14 left-0 z-50 w-full bg-richblack-800 text-richblack-25 flex flex-col items-start gap-4 px-6 py-4 shadow-md">
+            <Link to="/" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
+            <Link to="/about" onClick={() => setIsMobileMenuOpen(false)}>About Us</Link>
+            <Link to="/contact-us" onClick={() => setIsMobileMenuOpen(false)}>Contact Us</Link>
+            
+            {!isValidToken || !isValidUser ? (
+              <>
+                <Link to="/login" onClick={() => setIsMobileMenuOpen(false)}>Log In</Link>
+                <Link to="/signup" onClick={() => setIsMobileMenuOpen(false)}>Sign Up</Link>
+              </>
+            ) : (
+              <Link to="/dashboard/my-profile" onClick={() => setIsMobileMenuOpen(false)}>Dashboard</Link>
+            )}
+          </div>
+        )}
+
+        <button
+          className="mr-4 md:hidden"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        >
           <AiOutlineMenu fontSize={24} fill="#AFB2BF" />
         </button>
+
       </div>
     </div>
   );
