@@ -2,104 +2,107 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const User = require("../models/User");
 
-//auth
+// Middleware: Auth
 exports.auth = async (req, res, next) => {
-    try{
+    try {
+        console.log("BEFORE TOKEN EXTRACTION");
 
-        console.log("BEFORE ToKEN EXTRACTION");
-        //extract token
-        const token = req.cookies.token 
-                        || req.body.token 
-                        || req.header("Authorization").replace("Bearer ", "");
-        console.log("AFTER ToKEN EXTRACTION");
+        // Safe token extraction
+        let token = null;
+        if (req.cookies && req.cookies.token) {
+            token = req.cookies.token;
+        } else if (req.body && req.body.token) {
+            token = req.body.token;
+        } else if (
+            req.header("Authorization") &&
+            req.header("Authorization").startsWith("Bearer ")
+        ) {
+            token = req.header("Authorization").replace("Bearer ", "");
+        }
 
-        //if token missing, then return response
-        if(!token) {
+        console.log("AFTER TOKEN EXTRACTION");
+
+        // If token missing
+        if (!token) {
             return res.status(401).json({
-                success:false,
-                message:'TOken is missing',
+                success: false,
+                message: "Token is missing",
             });
         }
 
-        //verify the token
-        try{
-            const decode =  jwt.verify(token, process.env.JWT_SECRET);
-            console.log(decode);
-            req.user = decode;
-        }
-        catch(err) {
-            //verification - issue
+        // Verify token
+        try {
+            const decode = jwt.verify(token, process.env.JWT_SECRET);
+            console.log("DECODED TOKEN:", decode);
+            req.user = decode; // Attach user info to req
+        } catch (err) {
             return res.status(401).json({
-                success:false,
-                message:'token is invalid',
+                success: false,
+                message: "Token is invalid",
             });
         }
-        next();
-    }
-    catch(error) {  
-        return res.status(401).json({
-            success:false,
-            message:'Something went wrong while validating the token',
+
+        next(); // Pass control
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: "Something went wrong while validating the token",
+            error: error.message,
         });
     }
-}
+};
 
-//isStudent
+// Middleware: Student check
 exports.isStudent = async (req, res, next) => {
- try{
-        if(req.user.accountType !== "Student") {
+    try {
+        if (req.user.accountType !== "Student") {
             return res.status(401).json({
-                success:false,
-                message:'This is a protected route for Students only',
+                success: false,
+                message: "This is a protected route for Students only",
             });
         }
         next();
- }
- catch(error) {
-    return res.status(500).json({
-        success:false,
-        message:'User role cannot be verified, please try again'
-    })
- }
-}
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: "User role cannot be verified, please try again",
+        });
+    }
+};
 
-
-//isInstructor
+// Middleware: Instructor check
 exports.isInstructor = async (req, res, next) => {
-    try{
-           if(req.user.accountType !== "Instructor") {
-               return res.status(401).json({
-                   success:false,
-                   message:'This is a protected route for Instructor only',
-               });
-           }
-           next();
+    try {
+        if (req.user.accountType !== "Instructor") {
+            return res.status(401).json({
+                success: false,
+                message: "This is a protected route for Instructors only",
+            });
+        }
+        next();
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: "User role cannot be verified, please try again",
+        });
     }
-    catch(error) {
-       return res.status(500).json({
-           success:false,
-           message:'User role cannot be verified, please try again'
-       })
-    }
-   }
+};
 
-
-//isAdmin
+// Middleware: Admin check
 exports.isAdmin = async (req, res, next) => {
-    try{    
-           console.log("Printing AccountType ", req.user.accountType);
-           if(req.user.accountType !== "Admin") {
-               return res.status(401).json({
-                   success:false,
-                   message:'This is a protected route for Admin only',
-               });
-           }
-           next();
+    try {
+        console.log("Account Type:", req.user.accountType);
+        if (req.user.accountType !== "Admin") {
+            return res.status(401).json({
+                success: false,
+                message: "This is a protected route for Admins only",
+            });
+        }
+        next();
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: "User role cannot be verified, please try again",
+        });
     }
-    catch(error) {
-       return res.status(500).json({
-           success:false,
-           message:'User role cannot be verified, please try again'
-       })
-    }
-   }
+};
