@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:4000/api/v1"
+=======
+const BASE_URL = process.env.REACT_APP_BASE_URL
+
+>>>>>>> 2c363010b3869a01acc60909afe21dcfcbb6e5e8
 // AUTH ENDPOINTS
 export const endpoints = {
   SENDOTP_API: BASE_URL + "/auth/sendotp",
@@ -12,7 +17,10 @@ export const endpoints = {
 export const profileEndpoints = {
   GET_USER_DETAILS_API: BASE_URL + "/profile/getUserDetails",
   GET_USER_ENROLLED_COURSES_API: BASE_URL + "/profile/getEnrolledCourses",
+<<<<<<< HEAD
   GET_INSTRUCTOR_DATA_API: BASE_URL + "/profile/instructorDashboard",
+=======
+>>>>>>> 2c363010b3869a01acc60909afe21dcfcbb6e5e8
 }
 
 // STUDENTS ENDPOINTS

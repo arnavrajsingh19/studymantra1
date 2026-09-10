@@ -22,7 +22,10 @@
     "express-fileupload": "^1.4.0",
     "jsonwebtoken": "^9.0.0",
     "mongodb": "^6.15.0",
+<<<<<<< HEAD
     "mongodb-memory-server": "^11.2.0",
+=======
+>>>>>>> 2c363010b3869a01acc60909afe21dcfcbb6e5e8
     "mongoose": "^7.0.3",
     "node-schedule": "^2.1.1",
     "nodemailer": "^6.9.1",

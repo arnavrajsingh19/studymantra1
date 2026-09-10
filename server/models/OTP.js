@@ -19,16 +19,31 @@ const OTPSchema = new mongoose.Schema({
 
 // Define a function to send emails
 async function sendVerificationEmail(email, otp) {
+<<<<<<< HEAD
+=======
+	// Create a transporter to send emails
+
+	// Define the email options
+
+	// Send the email
+>>>>>>> 2c363010b3869a01acc60909afe21dcfcbb6e5e8
 	try {
 		const mailResponse = await mailSender(
 			email,
 			"Verification Email",
 			emailTemplate(otp)
 		);
+<<<<<<< HEAD
 		console.log("Email sent successfully: ", mailResponse?.response || mailResponse);
 	} catch (error) {
 		console.log("Error occurred while sending email: ", error.message);
 		console.log("Local Dev OTP for", email, "is:", otp);
+=======
+		console.log("Email sent successfully: ", mailResponse.response);
+	} catch (error) {
+		console.log("Error occurred while sending email: ", error);
+		throw error;
+>>>>>>> 2c363010b3869a01acc60909afe21dcfcbb6e5e8
 	}
 }
 

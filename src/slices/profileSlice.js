@@ -1,5 +1,6 @@
 import {createSlice} from "@reduxjs/toolkit"
 
+<<<<<<< HEAD
 const getSafeUser = () => {
   try {
     const item = localStorage.getItem("user");
@@ -17,6 +18,11 @@ const getSafeUser = () => {
 const initialState = {
   user: getSafeUser(),
   loading: false,
+=======
+const initialState = {
+    user:null,
+    loading:false,
+>>>>>>> 2c363010b3869a01acc60909afe21dcfcbb6e5e8
 };
 
 const profileSlice = createSlice({

@@ -7,9 +7,12 @@ const { uploadImageToCloudinary } = require("../utils/imageUploader")
 const CourseProgress = require("../models/CourseProgress")
 const { convertSecondsToDuration } = require("../utils/secToDuration")
 // Function to create a new course
+<<<<<<< HEAD
 const mongoose = require("mongoose")
 
 // Function to create a new course
+=======
+>>>>>>> 2c363010b3869a01acc60909afe21dcfcbb6e5e8
 exports.createCourse = async (req, res) => {
   try {
     // Get user ID from request object
@@ -26,6 +29,7 @@ exports.createCourse = async (req, res) => {
       status,
       instructions: _instructions,
     } = req.body
+<<<<<<< HEAD
 
     // Parse tag and instructions safely
     let tag = [];
@@ -44,13 +48,32 @@ exports.createCourse = async (req, res) => {
 
     // Check thumbnail image from request files
     const thumbnail = req.files ? req.files.thumbnailImage : null;
+=======
+    // Get thumbnail image from request files
+    const thumbnail = req.files.thumbnailImage
+
+    // Convert the tag and instructions from stringified Array to Array
+    const tag = JSON.parse(_tag)
+    const instructions = JSON.parse(_instructions)
+
+    console.log("tag", tag)
+    console.log("instructions", instructions)
+>>>>>>> 2c363010b3869a01acc60909afe21dcfcbb6e5e8
 
     // Check if any of the required fields are missing
     if (
       !courseName ||
       !courseDescription ||
       !whatYouWillLearn ||
+<<<<<<< HEAD
       !price
+=======
+      !price ||
+      !tag.length ||
+      !thumbnail ||
+      !category ||
+      !instructions.length
+>>>>>>> 2c363010b3869a01acc60909afe21dcfcbb6e5e8
     ) {
       return res.status(400).json({
         success: false,
@@ -60,9 +83,17 @@ exports.createCourse = async (req, res) => {
     if (!status || status === undefined) {
       status = "Draft"
     }
+<<<<<<< HEAD
 
     // Check if the user exists
     const instructorDetails = await User.findById(userId)
+=======
+    // Check if the user is an instructor
+    const instructorDetails = await User.findById(userId, {
+      accountType: "Instructor",
+    })
+
+>>>>>>> 2c363010b3869a01acc60909afe21dcfcbb6e5e8
     if (!instructorDetails) {
       return res.status(404).json({
         success: false,
@@ -70,6 +101,7 @@ exports.createCourse = async (req, res) => {
       })
     }
 
+<<<<<<< HEAD
     // Check if the category given is valid
     let categoryDetails = null;
     if (category && mongoose.Types.ObjectId.isValid(category)) {
@@ -94,6 +126,22 @@ exports.createCourse = async (req, res) => {
       );
     }
 
+=======
+    // Check if the tag given is valid
+    const categoryDetails = await Category.findById(category)
+    if (!categoryDetails) {
+      return res.status(404).json({
+        success: false,
+        message: "Category Details Not Found",
+      })
+    }
+    // Upload the Thumbnail to Cloudinary
+    const thumbnailImage = await uploadImageToCloudinary(
+      thumbnail,
+      process.env.FOLDER_NAME
+    )
+    console.log(thumbnailImage)
+>>>>>>> 2c363010b3869a01acc60909afe21dcfcbb6e5e8
     // Create a new course with the given details
     const newCourse = await Course.create({
       courseName,
@@ -101,11 +149,19 @@ exports.createCourse = async (req, res) => {
       instructor: instructorDetails._id,
       whatYouWillLearn: whatYouWillLearn,
       price,
+<<<<<<< HEAD
       tag: tag.length > 0 ? tag : ["Coding"],
       category: categoryDetails._id,
       thumbnail: thumbnailImage.secure_url,
       status: status,
       instructions: instructions.length > 0 ? instructions : ["Follow course materials"],
+=======
+      tag,
+      category: categoryDetails._id,
+      thumbnail: thumbnailImage.secure_url,
+      status: status,
+      instructions,
+>>>>>>> 2c363010b3869a01acc60909afe21dcfcbb6e5e8
     })
 
     // Add the new course to the User Schema of the Instructor
@@ -120,10 +176,16 @@ exports.createCourse = async (req, res) => {
       },
       { new: true }
     )
+<<<<<<< HEAD
 
     // Add the new course to the Category
     await Category.findByIdAndUpdate(
       { _id: categoryDetails._id },
+=======
+    // Add the new course to the Categories
+    const categoryDetails2 = await Category.findByIdAndUpdate(
+      { _id: category },
+>>>>>>> 2c363010b3869a01acc60909afe21dcfcbb6e5e8
       {
         $push: {
           courses: newCourse._id,
@@ -131,7 +193,11 @@ exports.createCourse = async (req, res) => {
       },
       { new: true }
     )
+<<<<<<< HEAD
 
+=======
+    console.log("HEREEEEEEEE", categoryDetails2)
+>>>>>>> 2c363010b3869a01acc60909afe21dcfcbb6e5e8
     // Return the new course and a success message
     res.status(200).json({
       success: true,
@@ -140,7 +206,11 @@ exports.createCourse = async (req, res) => {
     })
   } catch (error) {
     // Handle any errors that occur during the creation of the course
+<<<<<<< HEAD
     console.error("Error creating course:", error)
+=======
+    console.error(error)
+>>>>>>> 2c363010b3869a01acc60909afe21dcfcbb6e5e8
     res.status(500).json({
       success: false,
       message: "Failed to create course",
@@ -468,7 +538,11 @@ exports.deleteCourse = async (req, res) => {
     }
 
     // Unenroll students from the course
+<<<<<<< HEAD
     const studentsEnrolled = course.studentsEnrolled
+=======
+    const studentsEnrolled = course.studentsEnroled
+>>>>>>> 2c363010b3869a01acc60909afe21dcfcbb6e5e8
     for (const studentId of studentsEnrolled) {
       await User.findByIdAndUpdate(studentId, {
         $pull: { courses: courseId },

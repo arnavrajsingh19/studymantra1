@@ -21,7 +21,11 @@ const Instructor = () => {
 
             console.log(instructorApiData);
 
+<<<<<<< HEAD
             if(instructorApiData?.length)
+=======
+            if(instructorApiData.length)
+>>>>>>> 2c363010b3869a01acc60909afe21dcfcbb6e5e8
                 setInstructorData(instructorApiData);
 
             if(result) {
@@ -30,7 +34,10 @@ const Instructor = () => {
             setLoading(false);
         }
         getCourseDataWithStats();
+<<<<<<< HEAD
         // eslint-disable-next-line react-hooks/exhaustive-deps
+=======
+>>>>>>> 2c363010b3869a01acc60909afe21dcfcbb6e5e8
     },[])
 
     const totalAmount = instructorData?.reduce((acc,curr)=> acc + curr.totalAmountGenerated, 0);
@@ -82,12 +89,19 @@ const Instructor = () => {
                         <div>
                             <img 
                                 src={course.thumbnail}
+<<<<<<< HEAD
                                 alt={course.courseName || "Course thumbnail"}
+=======
+>>>>>>> 2c363010b3869a01acc60909afe21dcfcbb6e5e8
                             />
                             <div>
                                 <p>{course.courseName}</p>
                                 <div>
+<<<<<<< HEAD
                                     <p>{course?.studentsEnrolled?.length || 0} students</p>
+=======
+                                    <p>{course.studentsEnrolled.length} students</p>
+>>>>>>> 2c363010b3869a01acc60909afe21dcfcbb6e5e8
                                     <p> | </p>
                                     <p> Rs {course.price}</p>
                                 </div>
@@ -103,7 +117,11 @@ const Instructor = () => {
         )
         :(<div>
             <p>You have not created any courses yet</p>
+<<<<<<< HEAD
             <Link to={"/dashboard/add-course"}>
+=======
+            <Link to={"/dashboard/addCourse"}>
+>>>>>>> 2c363010b3869a01acc60909afe21dcfcbb6e5e8
                 Create a Course
             </Link>
         </div>)}

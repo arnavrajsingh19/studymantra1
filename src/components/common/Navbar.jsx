@@ -22,6 +22,7 @@ function Navbar() {
       setLoading(true);
       try {
         const res = await apiConnector("GET", categories.CATEGORIES_API);
+<<<<<<< HEAD
         if (res && res.data && Array.isArray(res.data.data)) {
           setSubLinks(res.data.data);
         } else if (res && res.data && Array.isArray(res.data)) {
@@ -32,6 +33,11 @@ function Navbar() {
       } catch (error) {
         console.log("Could not fetch Categories.", error);
         setSubLinks([]);
+=======
+        setSubLinks(res.data.data);
+      } catch (error) {
+        console.log("Could not fetch Categories.", error);
+>>>>>>> 2c363010b3869a01acc60909afe21dcfcbb6e5e8
       }
       setLoading(false);
     })();
@@ -69,10 +75,17 @@ function Navbar() {
                       <div className="absolute left-[50%] top-0 -z-10 h-6 w-6 translate-x-[80%] translate-y-[-40%] rotate-45 select-none rounded bg-richblack-5"></div>
                       {loading ? (
                         <p className="text-center">Loading...</p>
+<<<<<<< HEAD
                       ) : (subLinks && Array.isArray(subLinks) && subLinks.length > 0) ? (
                         subLinks.map((subLink, i) => (
                           <Link to={`/catalog/${subLink?.name?.split(" ")?.join("-")?.toLowerCase()}`} className="rounded-lg bg-transparent py-4 pl-4 hover:bg-richblack-50" key={i}>
                             <p>{subLink?.name}</p>
+=======
+                      ) : subLinks.length ? (
+                        subLinks.filter((subLink) => subLink?.courses?.length > 0).map((subLink, i) => (
+                          <Link to={`/catalog/${subLink.name.split(" ").join("-").toLowerCase()}`} className="rounded-lg bg-transparent py-4 pl-4 hover:bg-richblack-50" key={i}>
+                            <p>{subLink.name}</p>
+>>>>>>> 2c363010b3869a01acc60909afe21dcfcbb6e5e8
                           </Link>
                         ))
                       ) : (

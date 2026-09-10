@@ -7,7 +7,11 @@ import PublishCourse from "./PublishCourse"
 
 
 export default function RenderSteps() {
+<<<<<<< HEAD
   const { step } = useSelector((state) => state.course || { step: 1 })
+=======
+  const { step } = useSelector((state) => state.course)
+>>>>>>> 2c363010b3869a01acc60909afe21dcfcbb6e5e8
 
   const steps = [
     {

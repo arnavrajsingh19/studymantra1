@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+<<<<<<< HEAD
 const { MongoMemoryServer } = require("mongodb-memory-server");
 
 const seedData = async () => {
@@ -18,10 +19,13 @@ const seedData = async () => {
         console.log("Seeding error:", err.message);
     }
 };
+=======
+>>>>>>> 2c363010b3869a01acc60909afe21dcfcbb6e5e8
 
 exports.connect = () => {
     const DATABASE_URL = process.env.DATABASE_URL;
 
+<<<<<<< HEAD
     mongoose.connect(DATABASE_URL, {
         serverSelectionTimeoutMS: 2000,
     })
@@ -42,4 +46,20 @@ exports.connect = () => {
             console.error("Failed to start in-memory MongoDB:", memErr.message);
         }
     });
+=======
+    if (!DATABASE_URL) {
+        console.error("Database connection string is missing.");
+        process.exit(1); // Exit the process with failure
+    }
+
+    mongoose.connect(DATABASE_URL)
+        .then(() => {
+            console.log("DB Connected Successfully");
+        })
+        .catch((error) => {
+            console.error("DB Connection Failed");
+            console.error(error);
+            process.exit(1); // Exit the process with failure
+        });
+>>>>>>> 2c363010b3869a01acc60909afe21dcfcbb6e5e8
 };

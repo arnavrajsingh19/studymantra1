@@ -8,14 +8,22 @@ exports.createSubSection = async (req, res) => {
     try {
       // Extract necessary information from the request body
       const { sectionId, title, description } = req.body
+<<<<<<< HEAD
       const video = req.files && req.files.video ? req.files.video : null
 
       // Check if all necessary fields are provided
       if (!sectionId || !title || !description) {
+=======
+      const video = req.files.video
+  
+      // Check if all necessary fields are provided
+      if (!sectionId || !title || !description || !video) {
+>>>>>>> 2c363010b3869a01acc60909afe21dcfcbb6e5e8
         return res
           .status(404)
           .json({ success: false, message: "All Fields are Required" })
       }
+<<<<<<< HEAD
 
       let uploadDetails = {
         secure_url: "https://www.w3schools.com/html/mov_bbb.mp4",
@@ -36,6 +44,20 @@ exports.createSubSection = async (req, res) => {
       const SubSectionDetails = await SubSection.create({
         title: title,
         timeDuration: `${uploadDetails.duration || 60}`,
+=======
+      console.log(video)
+  
+      // Upload the video file to Cloudinary
+      const uploadDetails = await uploadImageToCloudinary(
+        video,
+        process.env.FOLDER_NAME
+      )
+      console.log(uploadDetails)
+      // Create a new sub-section with the necessary information
+      const SubSectionDetails = await SubSection.create({
+        title: title,
+        timeDuration: `${uploadDetails.duration}`,
+>>>>>>> 2c363010b3869a01acc60909afe21dcfcbb6e5e8
         description: description,
         videoUrl: uploadDetails.secure_url,
       })

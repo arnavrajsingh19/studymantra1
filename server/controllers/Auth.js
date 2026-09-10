@@ -1,5 +1,8 @@
 const bcrypt = require("bcrypt");
+<<<<<<< HEAD
 const mongoose = require("mongoose");
+=======
+>>>>>>> 2c363010b3869a01acc60909afe21dcfcbb6e5e8
 const User = require("../models/User");
 const OTP = require("../models/OTP");
 const jwt = require("jsonwebtoken");
@@ -128,6 +131,7 @@ exports.login = async (req, res) => {
 			});
 		}
 
+<<<<<<< HEAD
 		if (mongoose.connection.readyState !== 1) {
 			return res.status(400).json({
 				success: false,
@@ -135,6 +139,8 @@ exports.login = async (req, res) => {
 			});
 		}
 
+=======
+>>>>>>> 2c363010b3869a01acc60909afe21dcfcbb6e5e8
 		// Find user with provided email
 		const user = await User.findOne({ email }).populate("additionalDetails");
 
@@ -179,10 +185,17 @@ exports.login = async (req, res) => {
 		}
 	} catch (error) {
 		console.error(error);
+<<<<<<< HEAD
 		// Return 400 status code with error message
 		return res.status(400).json({
 			success: false,
 			message: `Login Failure: ${error.message}`,
+=======
+		// Return 500 Internal Server Error status code with error message
+		return res.status(500).json({
+			success: false,
+			message: `Login Failure Please Try Again`,
+>>>>>>> 2c363010b3869a01acc60909afe21dcfcbb6e5e8
 		});
 	}
 };
@@ -192,12 +205,25 @@ exports.sendotp = async (req, res) => {
 		const { email } = req.body;
 
 		// Check if user is already present
+<<<<<<< HEAD
 		const checkUserPresent = await User.findOne({ email });
 
 		if (checkUserPresent) {
 			return res.status(400).json({
 				success: false,
 				message: `User is already registered with this email. Please log in.`,
+=======
+		// Find user with provided email
+		const checkUserPresent = await User.findOne({ email });
+		// to be used in case of signup
+
+		// If user found with provided email
+		if (checkUserPresent) {
+			// Return 401 Unauthorized status code with error message
+			return res.status(401).json({
+				success: false,
+				message: `User is Already Registered`,
+>>>>>>> 2c363010b3869a01acc60909afe21dcfcbb6e5e8
 			});
 		}
 
@@ -206,6 +232,7 @@ exports.sendotp = async (req, res) => {
 			lowerCaseAlphabets: false,
 			specialChars: false,
 		});
+<<<<<<< HEAD
 		console.log("Generated OTP:", otp);
 
 		const otpPayload = { email, otp };
@@ -213,13 +240,33 @@ exports.sendotp = async (req, res) => {
 		console.log("OTP Created:", otpBody);
 
 		return res.status(200).json({
+=======
+		const result = await OTP.findOne({ otp: otp });
+		console.log("Result is Generate OTP Func");
+		console.log("OTP", otp);
+		console.log("Result", result);
+		while (result) {
+			otp = otpGenerator.generate(6, {
+				upperCaseAlphabets: false,
+			});
+		}
+		const otpPayload = { email, otp };
+		const otpBody = await OTP.create(otpPayload);
+		console.log("OTP Body", otpBody);
+		res.status(200).json({
+>>>>>>> 2c363010b3869a01acc60909afe21dcfcbb6e5e8
 			success: true,
 			message: `OTP Sent Successfully`,
 			otp,
 		});
 	} catch (error) {
+<<<<<<< HEAD
 		console.log("Error in sendotp:", error.message);
 		return res.status(500).json({ success: false, message: error.message });
+=======
+		console.log(error.message);
+		return res.status(500).json({ success: false, error: error.message });
+>>>>>>> 2c363010b3869a01acc60909afe21dcfcbb6e5e8
 	}
 };
 
