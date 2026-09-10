@@ -218,9 +218,10 @@ B.E. Electronics & Communication Engineering
 
 Thapar Institute of Engineering and Technology
 
-GitHub: https://github.com/yourusername
+GitHub: https://github.com/arnavrajsingh19
 
-LinkedIn: https://linkedin.com/in/yourprofile
+LinkedIn: https://linkedin.com/in/arnavrajsingh19
+
 
 ---
 
@@ -229,5 +230,5 @@ LinkedIn: https://linkedin.com/in/yourprofile
 This project is licensed under the MIT License.
 
 ---
-
+  
 ## ⭐ If you found this project useful, don't forget to star the repository!
